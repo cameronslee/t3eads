@@ -23,7 +23,7 @@ const CreatePostWizard = () => {
   if (status === "authenticated") {
     return (
       <div className="p-8 flex gap-3 justify-center">
-        <img src={session.user?.image!} className="rounded-full w-8 h-8" />
+        <img src={session.user.image!} alt='Profile Image' className="rounded-full w-8 h-8" />
         <input 
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -60,7 +60,6 @@ function AuthWizard() {
 }
 
 const Feed = () => {
-  const { data: session } = useSession();
   const { data, isLoading } = api.posts.getAll.useQuery();
 
   if (isLoading) return <div> ...Loading </div>
@@ -69,7 +68,7 @@ const Feed = () => {
 
   return (
     <div>
-      {data?.map(({post,author}) => (<div key={post.id}>{post.content}<img src={author?.image!}/></div>))}
+      {data.map(({post,author}) => (<div key={post.id}>{post.content}<img src={author!.image!} alt="Profile Image"/></div>))}
     </div>
   )
 }
