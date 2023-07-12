@@ -5,6 +5,10 @@ import { useState } from "react";
 import { PageLayout } from "~/components/layout";
 import { FaHome, FaSistrix, FaRegHeart, FaRegUser} from 'react-icons/fa';
 import { HiPencilAlt } from "react-icons/hi";
+import { TbNeedleThread } from "react-icons/tb";
+import { BiDotsHorizontal } from "react-icons/bi";
+import { PostView } from "~/components/postview";
+
 const CreatePostWizard = () => {
   const { data: session, status } = useSession();
   const [input, setInput] = useState("");
@@ -67,8 +71,31 @@ const Feed = () => {
   if(!data) return <div>fook</div>
 
   return (
-    <div>
-      {data.map(({post,author}) => (<div key={post.id}>{post.content}<img src={author!.image!} alt="Profile Image"/></div>))}
+    <div className="flex grow flex-col overflow-y-scroll">
+      {[...data, ...data, ...data, ...data].map((fullPost) => (
+        <PostView {...fullPost} key={fullPost.post.id} />
+      ))}    </div>
+  )
+}
+
+const NavBar = () => {
+  return (
+    <div className="flex items-center justify-between p-4 text-4xl">
+      <div>
+        <FaHome />
+      </div>
+      <div>
+        <FaSistrix />
+      </div>
+      <div>
+        <HiPencilAlt />
+      </div>
+      <div>
+        <FaRegHeart />
+      </div>
+      <div>
+        <FaRegUser />
+      </div>
     </div>
   )
 }
@@ -83,6 +110,9 @@ export default function Home() {
 
   return (
     <PageLayout>
+      <div className="flex flex-col items-center justify-center p-4 text-6xl">
+        <TbNeedleThread />
+      </div>
       <Head>
         <title>T3eads</title>
       </Head>
@@ -91,23 +121,7 @@ export default function Home() {
 
       <AuthWizard />
 
-      <div className="flex items-center justify-between p-4 text-xl">
-        <div>
-          <FaHome />
-        </div>
-        <div>
-          <FaSistrix />
-        </div>
-        <div>
-          <HiPencilAlt />
-        </div>
-        <div>
-          <FaRegHeart />
-        </div>
-        <div>
-          <FaRegUser />
-        </div>
-      </div>
+      <NavBar />
 
     </PageLayout>
   );
