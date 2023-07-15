@@ -6,7 +6,7 @@ import { PageLayout } from "~/components/layout";
 import { FaHome, FaSistrix, FaRegHeart, FaRegUser} from 'react-icons/fa';
 import { HiPencilAlt } from "react-icons/hi";
 import { TbNeedleThread } from "react-icons/tb";
-import { BiDotsHorizontal } from "react-icons/bi";
+import { GiSewingString } from "react-icons/gi";
 import { PostView } from "~/components/postview";
 
 const CreatePostWizard = () => {
@@ -68,11 +68,11 @@ const Feed = () => {
 
   if (isLoading) return <div> ...Loading </div>
 
-  if(!data) return <div>fook</div>
+  if(!data) return <div>fook something went wrong</div>
 
   return (
     <div className="flex grow flex-col overflow-y-scroll">
-      {[...data, ...data, ...data, ...data].map((fullPost) => (
+      {[...data].map((fullPost) => (
         <PostView {...fullPost} key={fullPost.post.id} />
       ))}    </div>
   )
@@ -111,7 +111,7 @@ export default function Home() {
   return (
     <PageLayout>
       <div className="flex flex-col items-center justify-center p-4 text-6xl">
-        <TbNeedleThread />
+        <GiSewingString />
       </div>
       <Head>
         <title>T3eads</title>
