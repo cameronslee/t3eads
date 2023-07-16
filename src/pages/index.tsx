@@ -85,7 +85,7 @@ const LoginView = () => {
     <div className="flex justify-center h-screen w-screen items-center">
       <div className="w-full md:w-1/2 flex flex-col items-center " >
         <h1 className="text-center text-5xl font-bold text-gray-600 mb-6">T3eads</h1>
-        <h2 className="text-center text-xl font-bold text-gray-600 mb-6">"LOGIN WALL"</h2>
+        <h2 className="text-center text-xl font-bold text-gray-600 mb-6">LOGIN WALL</h2>
         <AuthWizard />
       </div>
     </div>
