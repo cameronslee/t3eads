@@ -36,17 +36,17 @@ const CreatePostWizard = () => {
           placeholder="Enter a task!" 
           className="grow bg-transparent text-threads-bg-dark border rounded-full border-slate-100 p-2" 
         />
-        <button onClick={() => mutate({content: input}) }className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        <button onClick={() => mutate({content: input}) } className="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
           Enter
+          <div className="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30"></div>
         </button>
       </div>
     );
   }
   return null;
-  
 };
 
-function AuthWizard() {
+const AuthWizard = () => {
   const { data: sessionData } = useSession();
   return (
     <div className="flex flex-col items-center justify-center gap-4">
@@ -54,10 +54,11 @@ function AuthWizard() {
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
       </p>
       <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+        className="group relative h-12 w-48 overflow-hidden rounded-2xl bg-threads-bg-dark text-lg font-bold text-white"
         onClick={sessionData ? () => void signOut() : () => void signIn()}
       >
         {sessionData ? "Sign out" : "Sign in"}
+        <div className="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-threads-secondary-default/30"></div>
       </button>
     </div>
   );
@@ -75,6 +76,19 @@ const Feed = () => {
       {[...data].map((fullPost) => (
         <PostView {...fullPost} key={fullPost.post.id} />
       ))}    </div>
+  )
+}
+
+
+const LoginView = () => {
+  return (
+    <div className="flex justify-center h-screen w-screen items-center">
+      <div className="w-full md:w-1/2 flex flex-col items-center " >
+        <h1 className="text-center text-5xl font-bold text-gray-600 mb-6">T3eads</h1>
+        <h2 className="text-center text-xl font-bold text-gray-600 mb-6">"LOGIN WALL"</h2>
+        <AuthWizard />
+      </div>
+    </div>
   )
 }
 
@@ -100,14 +114,7 @@ const NavBar = () => {
   )
 }
 
-export default function Home() {
-  const { data: session } = useSession();
-  const { data, isLoading } = api.posts.getAll.useQuery();
-
-  if (isLoading) return <div> ...Loading </div>
-
-  if(!data) return <div>fook</div>
-
+const Home = () => {
   return (
     <PageLayout>
       <div className="flex flex-col items-center justify-center p-4 text-6xl">
@@ -118,12 +125,27 @@ export default function Home() {
       </Head>
       <CreatePostWizard />
       <Feed />
-
       <AuthWizard />
-
       <NavBar />
-
     </PageLayout>
+  );
+}
+
+export default function Main() { 
+  const { data: session, status } = useSession();
+  const { data, isLoading } = api.posts.getAll.useQuery();
+
+  if (isLoading) return <div> ...Loading </div>
+
+  if(!data) return <div>fook</div>
+
+  if (status === "authenticated") {
+    return (
+      <Home />
+    );
+  }
+  return (
+    <LoginView />
   );
 }
 
