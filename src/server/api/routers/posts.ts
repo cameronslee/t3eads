@@ -15,6 +15,7 @@ export const postsRouter = createTRPCRouter({
         authorId: { in: users.map((user) => user.id) },
       },
       take: 100,
+      orderBy: {createdAt: 'desc'},
     });
 
     return posts.map((post) => (
