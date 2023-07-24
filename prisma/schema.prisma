@@ -23,6 +23,17 @@ model Post {
     @@index([authorId]) //index based on author id
 }
 
+model PostLikes {
+    id        String   @id @default(cuid())
+    likedAt   DateTime @default(now())
+
+    postId String
+    userId String
+
+    @@index([postId]) //index based on post id
+    @@index([userId]) //index based on user id
+}
+
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
