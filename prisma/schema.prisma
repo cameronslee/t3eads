@@ -25,13 +25,14 @@ model Post {
 
 model PostLikes {
     id        String   @id @default(cuid())
-    likedAt   DateTime @default(now())
+    createdAt DateTime @default(now())
 
     postId String
-    userId String
+    authorId String
 
-    @@index([postId]) //index based on post id
-    @@index([userId]) //index based on user id
+    @@index([authorId]) //index based on post id
+    @@index([postId]) //index based on user id
+    @@index([postId, authorId]) //index based on both
 }
 
 // Necessary for Next auth

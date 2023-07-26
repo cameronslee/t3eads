@@ -1,15 +1,22 @@
 import type { RouterOutputs } from "~/utils/api";
-
+import { useRouter } from "next/router";
 import dayjs from "dayjs";
 import Link from "next/link";
 
+import { api } from "~/utils/api";
 import { BiDotsHorizontal } from "react-icons/bi";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegGrinHearts, FaRegHeart } from "react-icons/fa";
 import { LuSend } from "react-icons/lu";
 import { PiChatCircleLight, PiArrowsClockwiseFill} from "react-icons/pi";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
+
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+
+import { Post, PostLikes } from "@prisma/client";
+
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale)
 
@@ -31,21 +38,59 @@ dayjs.updateLocale('en', {
   }
 })
 
-const ActionBar = () => {
-    return (
-        <div className="flex space-x-4 items-center w-48 pt-4">
-            <FaRegHeart className="text-2xl" />
-            <PiChatCircleLight className="text-2xl -scale-y-100 -rotate-180" />
-            <PiArrowsClockwiseFill className="text-2xl" />
-            <LuSend className="text-2xl" /> 
-        </div>
-    );
-    }
-
 type PostWithUser = RouterOutputs["posts"]["getAll"][number];
 
-export const PostView = (props: PostWithUser) => {
-  const { post, author } = props;
+interface ActionBarProps {
+  postId: Post["id"];
+  isLiked: boolean;
+}
+
+const ActionBar = (postProps: ActionBarProps) => {
+  const ctx = api.useContext();
+
+  const [liked, setLiked] = useState(postProps.isLiked);
+
+  const { mutate: like } = api.posts.like.useMutation({
+  onSuccess: () => {
+    void ctx.posts.getAll.invalidate();
+  },
+  onError: (err) => {
+  console.error(err);
+  }
+  });
+
+  const { mutate: unLike } = api.posts.unlike.useMutation({
+  onSuccess: () => {
+    void ctx.posts.getAll.invalidate();
+  },
+  onError: (err) => {
+  console.error(err);
+  }
+  });
+
+
+  return (
+      <div className="flex space-x-4 items-center w-48 pt-4">
+      <button 
+      onClick={() => { 
+        liked ? unLike({postId: postProps.postId}) : like({postId: postProps.postId}); 
+        liked ? setLiked(false) : setLiked(true);
+      }} 
+      >
+      {liked ? <FaRegHeart className="text-2xl text-threads-secondary-default" /> : <FaRegHeart className="text-2xl" />}
+      </button>
+      <PiChatCircleLight className="text-2xl -scale-y-100 -rotate-180" />
+      <PiArrowsClockwiseFill className="text-2xl" />
+      <LuSend className="text-2xl" /> 
+      </div>
+  );
+}
+
+
+export const PostView = (postProps: PostWithUser) => {
+  const { post, author, likes} = postProps;
+  const likeData = api.posts.hasLiked.useQuery({postId: post.id}).data ? true : false;
+
   return (
     <div key={post.id} className="flex justify-between border-b border-threads-bg-light border-opacity-10 p-4">
         <div className="flex gap-4">
@@ -62,8 +107,9 @@ export const PostView = (props: PostWithUser) => {
           </Link>
           <p className="text-xl break-all">{post.content}</p> 
           <div>
-            <ActionBar />
+            <ActionBar postId={post.id} isLiked={likeData}/>
           </div>
+            {likes.length} {likes.length === 1 ? "like" : "likes"}
         </div>
 
         </div>
