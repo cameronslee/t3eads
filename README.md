@@ -26,6 +26,9 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 # T3eads: Minimal Clone of Threads by Meta
 Purpose of this project was to familarize myself with T3 Stack. 
 
+<img width="681" alt="preview" src="https://github.com/cameronslee23/t3eads/assets/29127398/682d3682-f6bc-4e7d-aa7f-497bd065bfcd">
+
+
 OAUTH2 implemented via NextAuth requiring login through Discord
 
 Basic Post and Like functionality
