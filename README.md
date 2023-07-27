@@ -34,9 +34,9 @@ OAUTH2 implemented via NextAuth requiring login through Discord
 Basic Post and Like functionality
 
 ## Stetch Goals:
-Implement Sentiment Analysis on Posts
-Add Liked View
-Add Search Functionality for Other Users
-Implement Photo Sharing
-Implement branching of posts 
+- Implement Sentiment Analysis on Posts
+- Add Liked View
+- Add Search Functionality for Other Users
+- Implement Photo Sharing
+- Implement branching of posts 
 
