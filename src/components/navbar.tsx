@@ -8,19 +8,14 @@ export const NavBar = () => {
     const authorName = sessionData?.user.name;
     return (
       <div className="flex items-center justify-between p-4 text-4xl">
-          <Link href="/">
-            <FaHome />
-          </Link>
-  
-        <Link href="/search">
-          <FaSistrix />
+        <Link href="/">
+          <FaHome />
         </Link>
+          <FaSistrix />
         <Link href="/createThread">
           <HiPencilAlt />
         </Link>
-        <Link href="/liked">
           <FaRegHeart />
-        </Link>
         <Link href={`/@${authorName!}`}>
           <FaRegUser />
         </Link>

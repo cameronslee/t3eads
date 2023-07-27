@@ -69,7 +69,7 @@ const Home = () => {
 }
 
 export default function Main() { 
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const { data, isLoading } = api.posts.getAll.useQuery();
 
   if (isLoading) return <div> ...Loading </div>
