@@ -1,8 +1,6 @@
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useState } from "react";
-import { PageLayout } from "~/components/layout";
-import Link from "next/link";
 import { useRouter } from 'next/navigation'
 
 const CreatePostWizard = () => {

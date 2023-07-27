@@ -4,7 +4,8 @@ import { PageLayout } from "~/components/layout";
 import { PostView } from "~/components/postview";
 import type { GetStaticProps, NextPage } from "next";
 import { generateSSGHelper } from "~/server/helpers/ssgHelper";
-//Catch All 
+import { ProfilePostView } from "~/components/profilepostview";
+
 
 const ProfileFeed = (props: {userId: string}) => {
   const { data, isLoading } = api.posts.getPostsByUserId.useQuery({userId: props.userId});
@@ -13,7 +14,7 @@ const ProfileFeed = (props: {userId: string}) => {
   return (
     <div className="flex flex-col">
       {data.map((fullPost) => (
-        <PostView {...fullPost} key={fullPost.post.id} />
+        <ProfilePostView {...fullPost} key={fullPost.post.id} />
       ))}
     </div>
   );
@@ -21,7 +22,6 @@ const ProfileFeed = (props: {userId: string}) => {
 
 const ProfilePage: NextPage<{username: string }> = ({ username }) => {
   const { data } = api.profile.getUserByUsername.useQuery({username});
-  console.log(data?.name)
   if (!data) return <div>foooooooook</div>
    return (
     <>
