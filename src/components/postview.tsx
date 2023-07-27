@@ -1,21 +1,19 @@
 import type { RouterOutputs } from "~/utils/api";
-import { useRouter } from "next/router";
 import dayjs from "dayjs";
 import Link from "next/link";
 
 import { api } from "~/utils/api";
 import { BiDotsHorizontal } from "react-icons/bi";
-import { FaRegGrinHearts, FaRegHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 import { LuSend } from "react-icons/lu";
 import { PiChatCircleLight, PiArrowsClockwiseFill} from "react-icons/pi";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
 
-import { Post, PostLikes } from "@prisma/client";
+import { Post } from "@prisma/client";
 
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale)
